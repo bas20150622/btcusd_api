@@ -11,6 +11,10 @@ def get_latest_timestamp(db: Session):
 
 
 def get_ohlcv(db: Session, timestamp: int):
+    """Fetches the OHLC having OHLC.timestamp closest to timestamp,
+    i.e. can be OHCL data before, on or after timestamp thus
+    verification of timestamp date vs OHLC.date must be done
+    to choose which OHLC price to use (close, open, or halfway in between high/low)"""
     _closest_timestamp = 60 * round(timestamp / 60)
     return (
         db.query(models.OHLCV)
