@@ -1,13 +1,11 @@
 # SQLalchemy models
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Table, Column, Integer, Numeric
+from sqlalchemy import Table, Column, Numeric, DateTime
 from .database import Base
 
 
 class OHLCV(Base):
     __tablename__ = "ohlcv"
-    id = Column(Integer, primary_key=True)
-    timestamp = Column(Integer, index=True)  # UTC
+    timestamp = Column(DateTime(timezone=True), primary_key=True, nullable=False)
     open = Column(Numeric(10, 2))
     high = Column(Numeric(10, 2))
     low = Column(Numeric(10, 2))

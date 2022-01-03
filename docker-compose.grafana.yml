@@ -1,0 +1,27 @@
+services:
+  grafana:
+    ## https://hub.docker.com/r/grafana/grafana/
+    image: grafana/grafana:7.3.6
+    user: "0"
+    environment:
+      ## https://grafana.com/docs/grafana/latest/installation/configuration/#configure-with-environment-variables
+      ## https://grafana.com/docs/grafana/latest/installation/configure-docker/
+      # GF_INSTALL_PLUGINS=grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource,natel-influx-admin-panel
+      - GF_INSTALL_PLUGINS=grafana-simple-json-datasource,natel-influx-admin-panel
+      ## https://grafana.com/docs/grafana/latest/auth/overview/
+      #- GF_AUTH_ANONYMOUS_ENABLED=true
+      #- GF_AUTH_ANONYMOUS_ORG_NAME=GuestOrg
+      #- GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      #- GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    ports:
+      - 3000:3000
+    networks:
+      timescale_network:
+
+        null
+networks:
+  timescale_network:
+    external: true
